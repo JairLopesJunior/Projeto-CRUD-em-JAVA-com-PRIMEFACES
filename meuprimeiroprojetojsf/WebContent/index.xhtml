@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+	<h:head>
+		<title>Olá JSF</title>
+		<h:graphicImage library="imagem" name="fundo.png"/> 
+		<script>
+			function alterarValorDoCampo(){
+				var campo = document.getElementById('formPessoa:nome');
+				campo.value = toUpperCase();
+			}
+		</script>
+	</h:head>
+	
+	<h:body style="background-color: #808080;">
+		 
+		<h:form id="formPessoa" style="position: absolute;top:25%;margin-left: 35%;">
+	 
+		    <p:fieldset legend="Cadastro" style="text-align: center;border-radius: 20px;" >
+		        <h:panelGrid columns="2" cellpadding="10">
+		        	<p:outputLabel value="Login:"/>
+					<p:inputText id="nome" value="#{loginMB.pessoa.nome}" required="true" requiredMessage="Login não pode ficar vazio" />
+        			<p:outputLabel value="Senha:"/>
+        			<p:password id="senha" value="#{loginMB.pessoa.senha}" feedback="true"
+                    	promptLabel="Fraca" weakLabel="Media"
+                    	goodLabel="Forte" strongLabel="Muito Forte" required="true" requiredMessage="Senha não pode ficar vazio" />
+		        </h:panelGrid>
+		        <p:messages id="msgErro" style="color: red"/>
+        		<p:commandButton id="botao" value="Entrar" ajax="false" action="#{loginMB.doEfetuarLogin}">
+        		</p:commandButton>
+		    </p:fieldset>
+		  	
+		</h:form>
+		
+	</h:body>
+</html>
