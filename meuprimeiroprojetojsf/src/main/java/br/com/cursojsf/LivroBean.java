@@ -1,16 +1,18 @@
 package br.com.cursojsf;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 import br.com.dao.DaoGeneric;
 import br.com.entidades.Livro;
 
-@ViewScoped
+@SessionScoped
 @ManagedBean(name = "livroBean")
 public class LivroBean {
 	
@@ -18,6 +20,11 @@ public class LivroBean {
 	
 	private DaoGeneric<Livro> daoGeneric = new DaoGeneric<Livro>();
 	private List<Livro> livros = new ArrayList<Livro>();
+	private List<Livro> filtroLivros = new ArrayList<>();
+	
+	public LivroBean() {
+		carregarLivros();
+	}
 	
 	public String salvar() {
 		livro = daoGeneric.merge(livro);
@@ -34,6 +41,11 @@ public class LivroBean {
 		daoGeneric.deletePorId(livro);
 		livro = new Livro();
 		carregarLivros();
+		return "";
+	}
+
+	public String retornar() {
+		remove();
 		return "";
 	}
 	
@@ -65,5 +77,15 @@ public class LivroBean {
 	public void setDaoGeneric(DaoGeneric<Livro> daoGeneric) {
 		this.daoGeneric = daoGeneric;
 	}
+
+	public List<Livro> getFiltroLivros() {
+		return filtroLivros;
+	}
+
+	public void setFiltroLivros(List<Livro> filtroLivros) {
+		this.filtroLivros = filtroLivros;
+	}
+	
+	
 
 }

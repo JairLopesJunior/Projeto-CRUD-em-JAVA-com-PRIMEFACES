@@ -25,6 +25,7 @@ public class DaoGeneric<E> {
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
 		
+		livro = entityManager.merge(livro);
 		Livro retorno = entityManager.merge(livro);
 		entityTransaction.commit();
 		entityManager.close();	
@@ -37,8 +38,9 @@ public class DaoGeneric<E> {
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
 		
-		Object id = Jpautil.getPrimaryKey(livro);
-		entityManager.createQuery("Delete from " + livro.getClass().getCanonicalName() + " where id = " + id).executeUpdate();
+		livro = entityManager.merge(livro);
+//		Object id = Jpautil.getPrimaryKey(livro);
+		entityManager.remove(livro);
 		entityTransaction.commit();
 		entityManager.close();	                           
 	}

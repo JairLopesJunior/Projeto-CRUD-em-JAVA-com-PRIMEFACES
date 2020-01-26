@@ -7,7 +7,6 @@
 	
 	<h:head>
 		<title>Olá JSF</title>
-		<h:graphicImage library="imagem" name="fundo.png"/> 
 		<script>
 			function alterarValorDoCampo(){
 				var campo = document.getElementById('formPessoa:nome');
@@ -18,7 +17,11 @@
 	
 	<h:body style="background-color: #808080;">
 		 
-		<h:form id="formPessoa" style="position: absolute;top:25%;margin-left: 35%;">
+		<h:form id="formPessoa" style="left: 50%; 
+                margin: -130px 0 0 -210px; 
+                padding:10px;
+                position: absolute; 
+                top: 50%">
 	 
 		    <p:fieldset legend="Cadastro" style="text-align: center;border-radius: 20px;" >
 		        <h:panelGrid columns="2" cellpadding="10">

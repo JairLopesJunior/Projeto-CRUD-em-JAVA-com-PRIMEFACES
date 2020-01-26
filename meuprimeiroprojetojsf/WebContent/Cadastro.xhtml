@@ -3,48 +3,72 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
         <title>Login Web</title>
     </h:head>
     <h:body>
-      <h:form id="formLogin">
-      <h1><h:outputText id="bemVindo" value="Bem vindo(a) ao sistema."/></h1>
-        <h:panelGrid id="gridLoginSenha" columns="2">
-          <p:outputLabel value="Id" />
-          <p:inputText value="#{livroBean.livro.id}" readonly="true" />
-          <p:outputLabel id="NomeDoLivro" value="Titulo"/>
-          <p:inputText value="#{livroBean.livro.nomeLivro}"/>
-          <p:outputLabel id="autor" value="Autor"/>
-          <p:inputText value="#{livroBean.livro.autor}"/>
-          <p:outputLabel id="editora" value="Editora:"/>
-          <p:inputText value="#{livroBean.livro.editora}"/>
-          <p:outputLabel id="anoDePublicação" value="Ano de Publicação:"/>
-          <p:inputText value="#{livroBean.livro.anoPublicacao}"/>
-    
-        </h:panelGrid>
-        <p:dataTable value="#{livroBean.livros}" var="livro">
-        	<p:column>
-        		<p:outputLabel value="#{livro.id}" />
-        	</p:column>
-			<p:column>
-        		<p:outputLabel value="#{livro.nomeLivro}" />
-        	</p:column>
-        	<p:column>
-        		<p:outputLabel value="#{livro.autor}" />
-        	</p:column>
-			<p:column>
-        		<p:outputLabel value="#{livro.editora}" />
-        	</p:column>
-        	<p:column>
-        		<p:outputLabel value="#{livro.anoPublicacao}" />
-        	</p:column>
+    	<h:form id="formprincipal">
+			<p:panel id="panel" style="text-align:center" header="Sistema de Biblioteca" footer="© CopyRight">
+	    		<p:fieldset legend="Bem Vindo(a) ao Sistema." style="text-align: center;border-radius: 20px; padding-bottom:3vh; align-items:center">
+					<p:panelGrid style="margin-bottom:2em;" columns="2" layout="grid" styleClass="showcase-text-align-center">
+    				      <p:outputLabel id="NomeDoLivro" value="Titulo:"/>
+				          <p:inputText value="#{livroBean.livro.nomeLivro}"/>
+				          <p:outputLabel id="autor" value="Autor:"/>
+				          <p:inputText value="#{livroBean.livro.autor}"/>
+				          <p:outputLabel id="editora" value="Editora:"/>
+				          <p:inputText value="#{livroBean.livro.editora}"/>
+				          <p:outputLabel id="anoDePublicação" value="Ano de Publicação:"/>
+				          <p:inputText value="#{livroBean.livro.anoPublicacao}"/> 
+				          <!--<p:calendar value="#{livroBean.livro.anoPublicacao}" showOn="button" />-->
+					</p:panelGrid>
+					<p:commandButton value="Novo" ajax="false" action="#{livroBean.novo}"/>
+			        <p:commandButton value="Salvar" ajax="false" action="#{livroBean.salvar}"/>
+			        <p:dialog header="Confirmação" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="100">
+						<i style="font-size: 2em" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+					       Tem certeza que deseja excluir?
+					       <p:separator />
+					    <p:commandButton value="Yes" action="#{livroBean.remove}" icon="ui-icon-check" type="button" styleClass="ui-confirmdialog-yes" />
+			        	<p:commandButton value="No" icon="ui-icon-close" type="button" styleClass="ui-confirmdialog-no" />
+					</p:dialog>
+		    	</p:fieldset>
+				
+				<p:fieldset legend="Livros Cadastrados" style="text-align: left;border-radius: 20px;margin-top: 2em">
+			        <p:dataTable value="#{livroBean.livros}"  paginatorPosition="bottom"
+			         paginator="true" var="livro" style="padding-top: 1vh; text-align:center" rows="10">
+			        	<p:column  headerText="Id">
+			        		<p:outputLabel value="#{livro.id}" />
+			        	</p:column>
+						<p:column filterBy="#{livro.nomeLivro}" filterMatchMode="contains" headerText="Titulo">
+			        		<h:outputText value="#{livro.nomeLivro}" />
+			        	</p:column>
+			        	<p:column filterBy="#{livro.autor}" filterMatchMode="contains" headerText="Autor">
+			        		<p:outputLabel value="#{livro.autor}" />
+			        	</p:column>
+						<p:column filterBy="#{livro.editora}" filterMatchMode="contains" headerText="Editora"> 
+			        		<p:outputLabel value="#{livro.editora}" />
+			        	</p:column>
+			        	<p:column filterBy="#{livro.anoPublicacao}" filterMatchMode="contains" headerText="Publicação">
+			        		<p:outputLabel value="#{livro.anoPublicacao}" />
+			        	</p:column>
+			        	
+			        	<p:column headerText="Ações">
+			        		<p:commandButton id="deletar" immediate="true" partialSubmit="true" process="@this" update=":frmPesquisaNoticia"
+	    					onclick="if(!confirm('Tem Certeza?')) return false;" action="#{livroBean.remove}" ajax="false" icon="fa fa-times">
+						    	<f:setPropertyActionListener  value="#{livro}" target="#{livroBean.livro}" action="#{livroBean.remove}"/>
+			       			</p:commandButton>
+			       			<p:commandButton id="atualizar" ajax="false" action="#{livroBean.salvar}" icon="fa fa-repeat">
+						    	<f:setPropertyActionListener  value="#{livro}" target="#{livroBean.livro}" action="#{livroBean.salvar}"/>
+			       			</p:commandButton>	
+			       			<p:tooltip id="toolTipGrow" for="deletar" value="Excluir" showEffect="clip" hideEffect="explode" position="left"/>
+			        		<p:tooltip id="a" for="atualizar" value="Atualizar" showEffect="clip" hideEffect="explode" position="left"/>
+			        	</p:column>
+		        	
+		        	</p:dataTable>
+	        	</p:fieldset>
+        	</p:panel>
 
-        	
-        </p:dataTable>
-        <h:commandButton value="Novo" action="#{livroBean.novo}"/>
-        <h:commandButton value="Salvar" action="#{livroBean.salvar}"/>
-        <h:commandButton value="Remove" action="#{livroBean.remove}"/>
-      </h:form>
-    </h:body>
+    	</h:form>
+	</h:body>
 </html>

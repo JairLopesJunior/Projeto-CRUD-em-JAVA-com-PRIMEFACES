@@ -13,7 +13,7 @@ public class LoginMB {
   public String doEfetuarLogin() {
     if("a".equals(pessoa.getNome())
             && "123".equals(pessoa.getSenha())) {
-      return "a";
+      return "Cadastro";
     } else {
       /* Cria uma mensagem. */
       FacesMessage msg = new FacesMessage("Usuário ou senha inválido!");
